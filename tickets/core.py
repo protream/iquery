@@ -160,7 +160,7 @@ class TrainsCollection(object):
 
 
 def get_valid_date(date):
-    date = re.sub(r'[/\:,]+', '', date)
+    date = re.sub(r'[-/\:,]+', '', date)
     try:
         date = datetime.strptime(date, '%Y%m%d')
     except ValueError:
