@@ -35,23 +35,25 @@ from docopt import docopt
 from stations import stations
 from prettytable import PrettyTable
 from requests.exceptions import ConnectionError
-from requests.packages.urllib3.exceptions import (
-    SNIMissingWarning,
-    InsecureRequestWarning,
-    InsecurePlatformWarning
-)
+
+try:
+    from requests.packages.urllib3.exceptions import (
+        SNIMissingWarning,
+        InsecureRequestWarning,
+        InsecurePlatformWarning
+    )
+    # Not show warings
+    requests.packages.urllib3.disable_warnings(SNIMissingWarning)
+    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+    requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
+except ImportError:
+    pass
 
 
 # For Python2
 if sys.version < '3':
     reload(sys)
     sys.setdefaultencoding('utf-8')
-
-# Not show warings
-requests.packages.urllib3.disable_warnings(SNIMissingWarning)
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
-
 
 QUERY_URL = 'http://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}'
 

@@ -1,32 +1,38 @@
-#!usr/bin/env python
+#!/usr/bin/env python
 
 import os
+import sys
 from codecs import open
-
+from tickets import __version__
 from setuptools import setup
 
 
-requires = ['docopt', 'prettytable', 'requests']
+def read(f):
+    return open(f, encoding='utf-8').read()
 
-version = '0.1'
-
-def reand(f):
-    return open(f, endcode='utf-8').read()
+if sys.argv[-1] == 'pub':
+    os.system('python setup.py sdist upload')
+    os.system('python setup.py bdist_wheel upload')
+    exit()
 
 setup(
     name='tickets',
-    version=version,
+    version=__version__,
     description='Train tickets query via command line.',
-    long_description=red('REDAME.rst') + '\n\n' + read('CHANGES'),
+    long_description=read('README.rst') + '\n\n' + read('CHANGES'),
     author='protream',
     author_email='protream@gmail.com',
     url='https://github.com/protream/tickets',
     py_modules=['tickets'],
     include_package_data=True,
-    entry_point={
+    install_requires=[
+        'docopt',
+        'prettytable',
+        'requests>=2.4.3'
+    ],
+    entry_points={
         'console_scripts': ['tickets=tickets.core:cli']
     },
-    install_requires=requires,
     license='MIT',
     zip_safe=False,
 )
