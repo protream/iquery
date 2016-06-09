@@ -79,20 +79,7 @@ def colorit(color, msg):
 class TrainsCollection(object):
     """A set of trains from a query."""
 
-    headers = [
-        '车次',
-        '车站',
-        '时间',
-        '历时',
-        '商务',
-        '一等',
-        '二等',
-        '软卧',
-        '硬卧',
-        '软座',
-        '硬座',
-        '无座'
-    ]
+    headers = '车次 车站 时间 历时 商务 一等 二等 软卧 硬卧 软座 硬座 无座'.split()
 
     def __init__(self, rows, options):
         self._rows = rows
