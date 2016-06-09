@@ -4,7 +4,7 @@ import os
 import sys
 from codecs import open
 from tickets import __version__
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(f):
@@ -12,7 +12,7 @@ def read(f):
 
 if sys.argv[-1] == 'pub':
     os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload')
+    os.system('python setup.py bdist_wheel upload --universal')
     exit()
 
 setup(
@@ -25,6 +25,7 @@ setup(
     url='https://github.com/protream/tickets',
     py_modules=['tickets'],
     include_package_data=True,
+    packages=find_packages(),
     install_requires=[
         'docopt',
         'prettytable',
