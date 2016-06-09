@@ -57,8 +57,7 @@ QUERY_URL = 'http://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&queryDate
 
 
 def colorit(color, msg):
-    """Wrap `msg` with color, default red. If `msg` is not string
-    , do nothing."""
+    """Wrap `msg` with color. If `msg` is not string, do nothing."""
     scheme = {
         'red': '\033[91m',
         'green': '\033[92m',
@@ -77,13 +76,13 @@ def colorit(color, msg):
 
 
 class TrainsCollection(object):
-    """A set of trains from a query."""
+    """A set of raw datas from a query."""
 
     headers = '车次 车站 时间 历时 商务 一等 二等 软卧 硬卧 软座 硬座 无座'.split()
 
-    def __init__(self, rows, options):
+    def __init__(self, rows, opts):
         self._rows = rows
-        self._options = options
+        self._opts = opts
 
     def __iter__(self):
         i = 0
@@ -140,7 +139,7 @@ class TrainsCollection(object):
             ]
             yield train
 
-    def export(self, options):
+    def export(self):
         """Use pretty table to perform formatting outprint.
 
         :options: Null string or a subset of 'dgktz'.
@@ -148,9 +147,9 @@ class TrainsCollection(object):
         """
         pt = PrettyTable()
         pt._set_field_names(self.headers)
-        if options:
+        if self._opts:
             for t in self.trains:
-                if t[0][0].lower() in options:
+                if t[0][0].lower() in self._opts:
                     pt.add_row(t)
         else:
             for t in self.trains:
@@ -199,22 +198,22 @@ def cli():
     url = QUERY_URL.format(date, from_station_code, goto_station_code)
 
     # Transform valid options to a string.
-    options = ''.join(o[1] for o in arguments if o in '-d-g-k-t-z' and arguments[o])
+    opts = ''.join(o[1] for o in arguments if o in '-d-g-k-t-z' and arguments[o])
 
     try:
         resp = requests.get(url, verify=False)
     except ConnectionError:
-        print(colorit('red', '网络连接失败.'))
+        print(colorit('red', '网络连接失败'))
         exit()
 
     try:
         rows = resp.json()['data']['datas']
     except KeyError:
-        print(colorit('green', '很遗憾，没有符合要求的车次'))
+        print(colorit('green', '没有符合要求的车次'))
 
-    trains = TrainsCollection(rows, options)
+    trains = TrainsCollection(rows, opts)
 
-    print(trains.export(options))
+    print(trains.export())
 
 
 if __name__ == '__main__':
