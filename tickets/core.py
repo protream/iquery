@@ -25,14 +25,14 @@ Examples:
 
 """
 
+import os
 import re
 import sys
 import json
-import requests
-
 from datetime import datetime
+
+import requests
 from docopt import docopt
-from stations import stations
 from prettytable import PrettyTable
 from requests.exceptions import ConnectionError
 
@@ -54,6 +54,19 @@ except ImportError:
 if sys.version < '3':
     reload(sys)
     sys.setdefaultencoding('utf-8')
+
+
+def _load_stations():
+    filepath = os.path.join(os.path.dirname(__file__), 'stations.dat')
+    stations = {}
+    with open(filepath, 'rb') as f:
+        for line in f.readlines():
+            name, code = line.split()
+            stations[name] = code
+    return stations
+
+
+stations = _load_stations()
 
 QUERY_URL = 'http://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}'
 
