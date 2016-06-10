@@ -10,9 +10,17 @@ from setuptools import setup, find_packages
 def read(f):
     return open(f, encoding='utf-8').read()
 
-if sys.argv[-1] == 'pub':
+argv = sys.argv[-1]
+
+# register
+if argv == 'reg':
+    os.system('python setup.py register')
+    exit()
+
+# publish
+if argv == 'pub':
     os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload --universal')
+    os.system('python setup.py bdist_wheel upload')
     exit()
 
 setup(
