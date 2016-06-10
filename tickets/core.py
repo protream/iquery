@@ -3,7 +3,7 @@
 """Train tickets query via the command line.
 
 Usage:
-    tickets [options] <from> <goto> <date>
+    tickets [options] <from> <to> <date>
 
 Arguments:
     from             出发站
@@ -172,17 +172,20 @@ class TrainsCollection(object):
         return pt
 
 
-def get_valid_date(date):
-    date = re.sub(r'[-/\:,]+', '', date)
+def get_valid_date(raw_date):
+    """Check if the date is valid, if is, return a formatted
+    datetime, otherwise, return ''.
+
+    :raw_date: A user input string date.
+    """
+    date = re.sub(r'[-/\:,]+', '', raw_date)
     try:
-        date = datetime.strptime(date, '%Y%m%d')
+        date = datetime.strptime(raw_date, '%Y%m%d')
     except ValueError:
-        print(colorit('red', '请输入正确的日期格式, 如20161001, 2016-10-1等.'))
-        exit()
+        return ''
     diff = date - datetime.today()
     if diff.days not in range(-1, 50):
-        print(colorit('red', '请输入今日起50天内的日期.'))
-        exit()
+        return ''
     return datetime.strftime(date, '%Y-%m-%d')
 
 
@@ -193,24 +196,25 @@ def cli():
     # Get `from` station telecode
     from_station_code = stations.get(arguments['<from>'])
     # Get `goto` station telecode
-    goto_station_code = stations.get(arguments['<goto>'])
+    to_station_code = stations.get(arguments['<to>'])
     raw_date = arguments['<date>']
 
-    # Verify if `from` station is valid.
     if not from_station_code:
-        print('你出发的站点国内貌似没有, 你来自火星吗?')
+        print('Seems that no this station where you from.')
+        exit()
+    if not to_station_code:
+        print('Seems that no this station where you going to.')
         exit()
 
-    # Verify if `goto` station is valid.
-    if not goto_station_code:
-        print('你要去的站点国内貌似没有, 你要去火星吗?')
+    valid_date = get_valid_date(raw_date)
+    if not valid_date:
+        print('Not a valid date.')
         exit()
 
-    # Verify and get valid date.
-    date = get_valid_date(raw_date)
+    # date =
 
     # Real query URL.
-    url = QUERY_URL.format(date, from_station_code, goto_station_code)
+    url = QUERY_URL.format(valid_date, from_station_code, to_station_code)
 
     # Transform valid options to a string.
     opts = ''.join(o[1] for o in arguments if o in '-d-g-k-t-z' and arguments[o])
@@ -218,13 +222,13 @@ def cli():
     try:
         resp = requests.get(url, verify=False)
     except ConnectionError:
-        print(colorit('red', '网络连接失败'))
+        print(colorit('red', 'Network connection fail.'))
         exit()
 
     try:
         rows = resp.json()['data']['datas']
     except KeyError:
-        print(colorit('green', '没有符合要求的车次'))
+        print(colorit('green', 'No train available.'))
 
     trains = TrainsCollection(rows, opts)
 
