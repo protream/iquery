@@ -191,6 +191,13 @@ def get_valid_date(raw_date):
 
 
 def build_params(from_station, to_station, date):
+    """Have no idea why wrong params order can't get data.
+    So, use `OrderedDict` here.
+
+    :param from_station: the `from` station telecode
+    :param to_station: `to` station telecode
+    :param date: query date
+    """
     d = OrderedDict()
     d['purpose_codes'] = 'ADULT'
     d['queryDate'] = date
@@ -224,7 +231,6 @@ def cli():
 
     params = build_params(from_station_code, to_station_code, valid_date)
     try:
-        # resp = requests.get(QUERY_URL, params=params, verify=False)
         resp = requests.get(QUERY_URL, params=params, verify=False)
     except ConnectionError:
         print(colorit('red', 'Network connection fail.'))
