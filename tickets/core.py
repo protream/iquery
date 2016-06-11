@@ -7,7 +7,7 @@ Usage:
 
 Arguments:
     from             出发站
-    goto             到达站
+    to               到达站
     date             查询日期
 
 Options:
@@ -30,6 +30,7 @@ import re
 import sys
 import json
 from datetime import datetime
+from collections import OrderedDict
 
 import requests
 from docopt import docopt
@@ -68,8 +69,7 @@ def _load_stations():
 
 stations = _load_stations()
 
-QUERY_URL = ('http://kyfw.12306.cn/otn/lcxxcx/query?' +
-             'purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}')
+QUERY_URL = 'http://kyfw.12306.cn/otn/lcxxcx/query'
 
 
 def colorit(color, msg):
@@ -190,6 +190,15 @@ def get_valid_date(raw_date):
     return datetime.strftime(date, '%Y-%m-%d')
 
 
+def build_params(from_station, to_station, date):
+    d = OrderedDict()
+    d['purpose_codes'] = 'ADULT'
+    d['queryDate'] = date
+    d['from_station'] = from_station
+    d['to_station'] = to_station
+    return d
+
+
 def cli():
     # Parse the command-line arguments.
     arguments = docopt(__doc__)
@@ -209,15 +218,14 @@ def cli():
         print('Not a valid date.')
         exit()
 
-    # Real query URL.
-    url = QUERY_URL.format(valid_date, from_station_code, to_station_code)
-
     # Transform valid options to a string.
     opts = ''.join(o[1] for o in arguments
                             if o in '-d-g-k-t-z' and arguments[o])
 
+    params = build_params(from_station_code, to_station_code, valid_date)
     try:
-        resp = requests.get(url, verify=False)
+        # resp = requests.get(QUERY_URL, params=params, verify=False)
+        resp = requests.get(QUERY_URL, params=params, verify=False)
     except ConnectionError:
         print(colorit('red', 'Network connection fail.'))
         exit()
