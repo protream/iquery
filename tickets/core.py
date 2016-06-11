@@ -25,6 +25,8 @@ Examples:
 
 """
 
+from __future__ import unicode_literals
+
 import os
 import re
 import sys
@@ -49,12 +51,6 @@ try:
     requests.packages.urllib3.disable_warnings(InsecurePlatformWarning)
 except ImportError:
     pass
-
-
-# For Python2
-if sys.version < '3':
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
 
 
 def _load_stations():
@@ -85,7 +81,7 @@ def colorit(color, msg):
     cv = scheme.get(color)
     if not cv:
         raise KeyError('color is not defined.')
-    if not isinstance(msg, str):
+    if not isinstance(msg, (str, unicode)):
         return
     nc = scheme.get('nc')
     return ''.join([cv, msg, nc])
@@ -127,13 +123,13 @@ class TrainsCollection(object):
                 # Column: '车次'
                 row.get('station_train_code'),
                 # Column: '车站'
-                ''.join([colorit('green', str(row.get('from_station_name'))),
+                ''.join([colorit('green', row.get('from_station_name')),
                          '\n',
-                         colorit('red', str(row.get('to_station_name')))]),
+                         colorit('red', row.get('to_station_name'))]),
                 # Column: '时间'
-                ''.join([colorit('green', str(row.get('start_time'))),
+                ''.join([colorit('green', row.get('start_time')),
                          '\n',
-                         colorit('red', str(row.get('arrive_time')))]),
+                         colorit('red', row.get('arrive_time'))]),
                 # Column: '历时'
                 self._get_time_duration(row),
                 # Column: '商务'
@@ -156,10 +152,9 @@ class TrainsCollection(object):
             yield train
 
     def export(self):
-        """Use pretty table to perform formatting outprint.
+        """Use `PrettyTable` to perform formatted outprint.
 
         :options: Null string or a subset of 'dgktz'.
-
         """
         pt = PrettyTable()
         pt._set_field_names(self.headers)
@@ -170,7 +165,7 @@ class TrainsCollection(object):
         else:
             for t in self.trains:
                 pt.add_row(t)
-        return pt
+        print(pt)
 
 
 def get_valid_date(raw_date):
@@ -243,7 +238,7 @@ def cli():
 
     trains = TrainsCollection(rows, opts)
 
-    print(trains.export())
+    trains.export()
 
 
 if __name__ == '__main__':
