@@ -105,7 +105,7 @@ class TrainsCollection(object):
                 yield next(self)
             i += 1
 
-    def _get_time_duration(self, row):
+    def _get_duration(self, row):
         duration = row.get('lishi').replace(':', '小时') + '分钟'
         # take 0 hour , only show minites
         if duration.startswith('00'):
@@ -131,7 +131,7 @@ class TrainsCollection(object):
                          '\n',
                          colorit('red', row.get('arrive_time'))]),
                 # Column: '历时'
-                self._get_time_duration(row),
+                self._get_duration(row),
                 # Column: '商务'
                 row.get('swz_num'),
                 # Column: '一等'
