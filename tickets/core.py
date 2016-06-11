@@ -68,7 +68,8 @@ def _load_stations():
 
 stations = _load_stations()
 
-QUERY_URL = 'http://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}'
+QUERY_URL = ('http://kyfw.12306.cn/otn/lcxxcx/query?' +
+             'purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}')
 
 
 def colorit(color, msg):
@@ -193,31 +194,27 @@ def cli():
     # Parse the command-line arguments.
     arguments = docopt(__doc__)
 
-    # Get `from` station telecode
     from_station_code = stations.get(arguments['<from>'])
-    # Get `goto` station telecode
-    to_station_code = stations.get(arguments['<to>'])
-    raw_date = arguments['<date>']
-
     if not from_station_code:
         print('Seems that no this station where you from.')
         exit()
+
+    to_station_code = stations.get(arguments['<to>'])
     if not to_station_code:
         print('Seems that no this station where you going to.')
         exit()
 
-    valid_date = get_valid_date(raw_date)
+    valid_date = get_valid_date(arguments['<date>'])
     if not valid_date:
         print('Not a valid date.')
         exit()
-
-    # date =
 
     # Real query URL.
     url = QUERY_URL.format(valid_date, from_station_code, to_station_code)
 
     # Transform valid options to a string.
-    opts = ''.join(o[1] for o in arguments if o in '-d-g-k-t-z' and arguments[o])
+    opts = ''.join(o[1] for o in arguments
+                            if o in '-d-g-k-t-z' and arguments[o])
 
     try:
         resp = requests.get(url, verify=False)
