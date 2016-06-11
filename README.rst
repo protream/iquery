@@ -24,11 +24,11 @@ Usage
 ::
 
     Usage:
-        tickets [options] <from> <goto> <date>
+        tickets [options] <from> <to> <date>
 
     Arguments:
         from             出发站
-        goto             到达站
+        to               到达站
         date             查询日期
 
     Options:
