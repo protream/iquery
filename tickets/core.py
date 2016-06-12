@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 """Train tickets query via the command line.
 
@@ -25,14 +25,13 @@ Examples:
 
 """
 
-from __future__ import unicode_literals
-
 import os
 import re
 import sys
 import json
 from datetime import datetime
 from collections import OrderedDict
+from _compat import to_unicode
 
 import requests
 from docopt import docopt
@@ -58,8 +57,8 @@ def _load_stations():
     stations = {}
     with open(filepath, 'rb') as f:
         for line in f.readlines():
-            name, code = line.split()
-            stations[name] = code
+            name, telecode = line.split()
+            stations[to_unicode(name)] = to_unicode(telecode)
     return stations
 
 
@@ -81,8 +80,6 @@ def colorit(color, msg):
     cv = scheme.get(color)
     if not cv:
         raise KeyError('color is not defined.')
-    if not isinstance(msg, (str, unicode)):
-        return
     nc = scheme.get('nc')
     return ''.join([cv, msg, nc])
 
@@ -106,7 +103,7 @@ class TrainsCollection(object):
             i += 1
 
     def _get_duration(self, row):
-        duration = row.get('lishi').replace(':', '小时') + '分钟'
+        duration = row.get('lishi').replace(':', u'小时') + u'分钟'
         # take 0 hour , only show minites
         if duration.startswith('00'):
             return duration[4:]
@@ -205,24 +202,23 @@ def cli():
     # Parse the command-line arguments.
     arguments = docopt(__doc__)
 
-    from_station_code = stations.get(arguments['<from>'])
+    from_station_code = stations.get(to_unicode(arguments['<from>']))
     if not from_station_code:
         print('Seems that no this station where you from.')
         exit()
 
-    to_station_code = stations.get(arguments['<to>'])
+    to_station_code = stations.get(to_unicode(arguments['<to>']))
     if not to_station_code:
         print('Seems that no this station where you going to.')
         exit()
 
-    valid_date = get_valid_date(arguments['<date>'])
+    valid_date = get_valid_date(to_unicode(arguments['<date>']))
     if not valid_date:
         print('Not a valid date.')
         exit()
 
     # Transform valid options to a string.
-    opts = ''.join(o[1] for o in arguments
-                            if o in '-d-g-k-t-z' and arguments[o])
+    opts = ''.join(o[1] for o in arguments if o in '-d-g-k-t-z' and arguments[o])
 
     params = build_params(from_station_code, to_station_code, valid_date)
     try:
