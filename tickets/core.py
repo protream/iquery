@@ -116,37 +116,40 @@ class TrainsCollection(object):
     def trains(self):
         """Filter rows accord to the headers"""
         for row in self._rows:
-            train = [
-                # Column: '车次'
-                row.get('station_train_code'),
-                # Column: '车站'
-                ''.join([colorit('green', row.get('from_station_name')),
-                         '\n',
-                         colorit('red', row.get('to_station_name'))]),
-                # Column: '时间'
-                ''.join([colorit('green', row.get('start_time')),
-                         '\n',
-                         colorit('red', row.get('arrive_time'))]),
-                # Column: '历时'
-                self._get_duration(row),
-                # Column: '商务'
-                row.get('swz_num'),
-                # Column: '一等'
-                row.get('zy_num'),
-                # Column: '二等'
-                row.get('ze_num'),
-                # Column: '软卧'
-                row.get('rw_num'),
-                # Column: '硬卧'
-                row.get('yw_num'),
-                # Column: '软座'
-                row.get('rz_num'),
-                # Column: '硬座'
-                row.get('yz_num'),
-                # Column: '无座'
-                row.get('wz_num')
-            ]
-            yield train
+            train_no = row.get('station_train_code')
+            initial = train_no[0].lower()
+            if not self._opts or initial in self._opts:
+                train = [
+                    # Column: '车次'
+                    train_no,
+                    # Column: '车站'
+                    ''.join([colorit('green', row.get('from_station_name')),
+                            '\n',
+                            colorit('red', row.get('to_station_name'))]),
+                    # Column: '时间'
+                    ''.join([colorit('green', row.get('start_time')),
+                            '\n',
+                            colorit('red', row.get('arrive_time'))]),
+                    # Column: '历时'
+                    self._get_duration(row),
+                    # Column: '商务'
+                    row.get('swz_num'),
+                    # Column: '一等'
+                    row.get('zy_num'),
+                    # Column: '二等'
+                    row.get('ze_num'),
+                    # Column: '软卧'
+                    row.get('rw_num'),
+                    # Column: '硬卧'
+                    row.get('yw_num'),
+                    # Column: '软座'
+                    row.get('rz_num'),
+                    # Column: '硬座'
+                    row.get('yz_num'),
+                    # Column: '无座'
+                    row.get('wz_num')
+                ]
+                yield train
 
     def export(self):
         """Use `PrettyTable` to perform formatted outprint.
@@ -155,13 +158,8 @@ class TrainsCollection(object):
         """
         pt = PrettyTable()
         pt._set_field_names(self.headers)
-        if self._opts:
-            for t in self.trains:
-                if t[0][0].lower() in self._opts:
-                    pt.add_row(t)
-        else:
-            for t in self.trains:
-                pt.add_row(t)
+        for train in self.trains:
+            pt.add_row(train)
         print(pt)
 
 
