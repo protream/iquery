@@ -85,7 +85,10 @@ def colorit(color, msg):
 
 
 class TrainsCollection(object):
-    """A set of raw datas from a query."""
+    """A set of raw datas from a query.
+
+    :opts: '' or a subset of 'dgktz'
+    """
 
     headers = '车次 车站 时间 历时 商务 一等 二等 软卧 硬卧 软座 硬座 无座'.split()
 
@@ -114,7 +117,7 @@ class TrainsCollection(object):
 
     @property
     def trains(self):
-        """Filter rows accord to the headers"""
+        """Filter rows according to `headers`"""
         for row in self._rows:
             train_no = row.get('station_train_code')
             initial = train_no[0].lower()
@@ -152,10 +155,7 @@ class TrainsCollection(object):
                 yield train
 
     def export(self):
-        """Use `PrettyTable` to perform formatted outprint.
-
-        :options: Null string or a subset of 'dgktz'.
-        """
+        """Use `PrettyTable` to perform formatted outprint."""
         pt = PrettyTable()
         pt._set_field_names(self.headers)
         for train in self.trains:
