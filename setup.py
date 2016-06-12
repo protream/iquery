@@ -31,9 +31,10 @@ setup(
     author='protream',
     author_email='protream@gmail.com',
     url='https://github.com/protream/tickets',
+    packages=['tickets'],
     py_modules=['tickets'],
     include_package_data=True,
-    packages=find_packages(),
+    platforms='any',
     install_requires=[
         'docopt',
         'prettytable',
