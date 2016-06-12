@@ -126,13 +126,17 @@ class TrainsCollection(object):
                     # Column: '车次'
                     train_no,
                     # Column: '车站'
-                    ''.join([colorit('green', row.get('from_station_name')),
-                            '\n',
-                            colorit('red', row.get('to_station_name'))]),
+                    ''.join([
+                        colorit('green', row.get('from_station_name')),
+                        '\n',
+                        colorit('red', row.get('to_station_name'))
+                    ]),
                     # Column: '时间'
-                    ''.join([colorit('green', row.get('start_time')),
-                            '\n',
-                            colorit('red', row.get('arrive_time'))]),
+                    ''.join([
+                        colorit('green', row.get('start_time')),
+                        '\n',
+                        colorit('red', row.get('arrive_time'))
+                    ]),
                     # Column: '历时'
                     self._get_duration(row),
                     # Column: '商务'
