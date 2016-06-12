@@ -1,0 +1,3 @@
+include README.tst
+include LICENSE
+include tickets/stations.dat
