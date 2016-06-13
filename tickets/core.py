@@ -22,13 +22,6 @@ Examples:
     tickets 南京 北京 201671
     tickets -k  南京南 上海 2016-7-1
     tickets -dg 上海虹桥 北京西 2016/7/1
-
-Others:
-1.  Date surport max 50 days offset today.
-
-2.  If you not use delimiter, make sure your date
-    is not ambiguous. e.g. 2016115 you mean 2016-1-15
-    or 2016-11-5? By default, it parsed to 11-5.
 """
 
 import os
