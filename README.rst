@@ -50,6 +50,6 @@ Notes
 
 - Worked with py2 and py3
 
-- Date surport max 50 days offset today.
+- Date surport max 50 days offset today, less or more will be considered as a invalid date.
 
 - If you don't use delimiter, make sure your date is not ambiguous. e.g. By 2016115 you mean 2016-1-15 or 2016-11-5 ? By default, it parsed to 2016-11-5.
