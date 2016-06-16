@@ -30,6 +30,7 @@ FROM_STATION_NOT_FOUND = 'From station not found.'
 TO_STATION_NOT_FOUND = 'To station not found.'
 INVALID_DATE = 'Invalid query date.'
 NETWORK_CONNECTION_FAIL = 'Network connection failed.'
+TRAIN_NOT_FOUND = 'No result.'
 
 
 class TrainsCollection(object):
