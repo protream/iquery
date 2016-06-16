@@ -14,7 +14,7 @@ or, type
 
 ::
 
-    $ tickets 上海 演出会
+    $ tickets 上海 演唱会
 
 you will get the show within `15` days:
 
@@ -45,7 +45,6 @@ or
 then go to `tickets` dir,
 
 ::
-
     $ ./setup.py install
 
 Usage
