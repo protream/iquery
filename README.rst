@@ -10,9 +10,7 @@ in command line, get train tickets from `上海虹桥` to `北京` in 2016-06-17
 
 .. image:: http://7xqdxb.com1.z0.glb.clouddn.com/ticksts-train.png
 
-.
-.
-.
+...
 
 besides, you can specify train type:
 
