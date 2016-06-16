@@ -13,6 +13,7 @@ in command line, get train tickets from `上海` to `北京` in 2016-06-15:
 or, type
 
 ::
+
     $ tickets 上海 演出会
 
 you will get the show within `15` days:
