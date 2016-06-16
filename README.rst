@@ -45,6 +45,7 @@ or
 then go to `tickets` dir,
 
 ::
+
     $ ./setup.py install
 
 Usage
