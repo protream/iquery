@@ -79,15 +79,15 @@ class TrainsCollection(object):
                     train_no,
                     # Column: '车站'
                     ''.join([
-                        colored.red(row.get('from_station_name')),
+                        colored.green(row.get('from_station_name')),
                         '\n',
-                        colored.green(row.get('to_station_name')),
+                        colored.red(row.get('to_station_name')),
                     ]),
                     # Column: '时间'
                     ''.join([
-                        colored.red(row.get('start_time')),
+                        colored.green(row.get('start_time')),
                         '\n',
-                        colored.green(row.get('arrive_time')),
+                        colored.red(row.get('arrive_time')),
                     ]),
                     # Column: '历时'
                     self._get_duration(row),

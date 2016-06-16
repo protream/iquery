@@ -34,7 +34,7 @@ def show_usage():
     """
 Usage:
     tickets [-dgktz] <from> <to> <date>
-    tickets <city> <show-type> <within-days>
+    tickets <city> <show> [<days>]
 
 You can go to `tickets -h` for more details.
     """
