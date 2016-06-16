@@ -36,6 +36,16 @@ Install
 
     $ pip3 install tickets
 
+or
+
+::
+    $ git clone https://github.com/protream/tickets
+
+then go to `tickets` dir,
+
+::
+    $ ./setup.py install
+
 Usage
 -----
 
