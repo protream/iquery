@@ -39,6 +39,7 @@ Install
 or
 
 ::
+
     $ git clone https://github.com/protream/tickets
 
 then go to `tickets` dir,
