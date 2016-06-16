@@ -26,7 +26,8 @@ setup(
     install_requires=[
         'prettytable',
         'requests',
-        'bs4'
+        'bs4',
+        'colorama'
     ],
     entry_points={
         'console_scripts': ['tickets=run:cli']
