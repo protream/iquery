@@ -1,7 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-import os
-import sys
 from codecs import open
 from tickets import __version__
 from setuptools import setup, find_packages
@@ -10,39 +8,40 @@ from setuptools import setup, find_packages
 def read(f):
     return open(f, encoding='utf-8').read()
 
-argv = sys.argv[-1]
-
-# register
-if argv == 'reg':
-    os.system('python setup.py register')
-    exit()
-
-# publish
-if argv == 'pub':
-    os.system('python setup.py sdist upload')
-    os.system('python setup.py bdist_wheel upload')
-    exit()
 
 setup(
     name='tickets',
     version=__version__,
     description='Train tickets query via command line.',
-    long_description=read('README.rst') + '\n\n' + read('CHANGES'),
+    long_description=read('README.rst') + '\n\n' + read('HISTORY.rst'),
     author='protream',
     author_email='protream@gmail.com',
     url='https://github.com/protream/tickets',
-    packages=['tickets'],
-    py_modules=['tickets'],
+    packages=[
+        'tickets'
+    ],
+    py_modules=['run'],
     include_package_data=True,
     platforms='any',
     install_requires=[
-        'docopt',
         'prettytable',
-        'requests>=2.4.3'
+        'requests',
+        'bs4'
     ],
     entry_points={
-        'console_scripts': ['tickets=tickets.core:cli']
+        'console_scripts': ['tickets=run:cli']
     },
     license='MIT',
     zip_safe=False,
+    classifiers=[
+         'Environment :: Console',
+         'Programming Language :: Python',
+         'Programming Language :: Python :: 3',
+         'Programming Language :: Python :: 3.1',
+         'Programming Language :: Python :: 3.2',
+         'Programming Language :: Python :: 3.3',
+         'Programming Language :: Python :: 3.4',
+         'Programming Language :: Python :: 3.5',
+         'Programming Language :: Python :: Implementation :: CPython'
+    ]
 )
