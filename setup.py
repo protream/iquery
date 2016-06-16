@@ -27,7 +27,6 @@ setup(
         'prettytable',
         'requests',
         'bs4',
-        'colorama'
     ],
     entry_points={
         'console_scripts': ['tickets=run:cli']

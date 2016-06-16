@@ -8,7 +8,6 @@
 """
 
 import sys
-import colorama
 
 
 __all__ = ['args', 'colored', 'exit_after_echo', 'is_show_type']
@@ -110,20 +109,22 @@ class Args(object):
 
 class Colored(object):
 
-    """A simple wrapper based on colorama.
-
-    Fore: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Back: BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET.
-    Style: DIM, NORMAL, BRIGHT, RESET_ALL
-
+    """I finally decided not to surpot Windows. Keep it
+    simple, only use `red` and `green` color. No necessory
+    to use `colorama` any more.
     """
 
-    def color_str(self, color, s, style='NORMAL'):
-        return '{}{}{}{}'.format(
-            getattr(colorama.Fore, color),
-            getattr(colorama.Style, style),
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+
+    #: no color
+    RESET = '\033[0m'
+
+    def color_str(self, color, s):
+        return '{}{}{}'.format(
+            getattr(self, color),
             s,
-            colorama.Style.RESET_ALL
+            self.RESET
         )
 
     def red(self, s):

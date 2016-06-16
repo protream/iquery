@@ -36,7 +36,8 @@ class ShowesCollection(object):
     """A set of showes from a query."""
 
     #: The header of every column
-    headers = '主题 时间 场馆 票价'.split()
+    # headers = '主题 时间 场馆 票价'.split()
+    headers = '主题 票价 场馆 '.split()
 
     def __init__(self, rows):
         self._rows = rows
@@ -148,14 +149,21 @@ class ShowTicketsQuery(object):
         """Parse `主题`, `时间`, `场馆`, 票价` in every item."""
         rows = []
         for i, item in enumerate(items):
-            color = colored.green if i & 1 else colored.red
-            theme = color(item.find(class_='ico').a.text.strip())
+            theme = colored.green(item.find(class_='ico').a.text.strip())
             text = item.find(class_='mt10').text.strip()
             mix = re.sub('\s+', ' ', text).split('：')
             time = mix[1][:-3]
-            place = color(mix[2][:-7])
+            place = mix[2][:-7]
+            # display time below theme
+            theme_time = ''.join([
+                theme,
+                '\n',
+                colored.red(''.join([
+                    '(', time, ')'
+                ]))
+            ])
             price = item.find(class_='price-sort').text.strip()
-            rows.append([theme, time, place, price])
+            rows.append([theme_time, price, place])
         return rows
 
     def query(self):

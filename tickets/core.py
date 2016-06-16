@@ -9,7 +9,6 @@
 
 import sys
 import requests
-import colorama
 from .utils import args, exit_after_echo
 from .showes import ShowTicketsQuery
 from .trains import TrainTicketsQuery
@@ -48,7 +47,7 @@ Usage:
     tickets [-dgktz] <from> <to> <date>
     tickets <city> <show> [<days>]
 
- Arguments:
+Arguments:
     from             出发站
     to               到达站
     date             查询日期
@@ -77,8 +76,6 @@ Examples:
     tickets 上海 演唱会
     tickets 北京 比赛 7
     """
-
-    colorama.init()
 
     if args.is_asking_for_help:
         exit_after_echo(cli.__doc__, color=None)

@@ -4,21 +4,33 @@ tickets enable you variable tickets via command line, type:
 
 ::
 
-    $ tickets -dt 上海 北京 20160615
+    $ tickets 上海虹桥 北京 20160617
 
-in command line, get train tickets from `上海` to `北京` in 2016-06-15:
+in command line, get train tickets from `上海虹桥` to `北京` in 2016-06-17:
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets.png
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/ticksts-train.png
 
-or, type
+.
+.
+.
+
+besides, you can specify train type:
 
 ::
 
-    $ tickets 上海 演唱会
+    $ tickets -g 上海 北京 20160617
 
-you will get the show within `15` days:
+Only query high-seed rail.
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets-2.png
+For show query,  type:
+
+::
+
+    $ tickets 南京 音乐会
+
+you will get concerts in Nanjin city within `15` days:
+
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets-show.png
 
 You can specify within how many days, like:
 
