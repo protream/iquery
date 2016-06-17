@@ -99,7 +99,7 @@ class ShowTicketsQuery(object):
             'datas', 'cities.dat'
         )
         d = {}
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             for line in f.readlines():
                 name, number = line.split()
                 d.setdefault(name, int(number))
