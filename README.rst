@@ -1,6 +1,6 @@
 tickets
 ===========================================================
-tickets enable you variable tickets via command line, type:
+tickets enable you query variable tickets via command line, type:
 
 ::
 
