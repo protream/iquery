@@ -55,8 +55,8 @@ class ShowesCollection(object):
             pt.add_row([SHOW_NOT_FOUND])
         else:
             pt._set_field_names(self.headers)
-        for row in self._rows:
-            pt.add_row(row)
+            for row in self._rows:
+                pt.add_row(row)
         print(pt)
 
 
