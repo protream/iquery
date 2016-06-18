@@ -172,7 +172,7 @@ class TrainTicketsQuery(object):
         date = self.date.strip()
         try:
             date_token = self._date_format(date)
-            if not date_token:
+            if date_token is None:
                 raise ValueError(self.date)
             date = datetime.strptime(date, date_token.join(('%Y', '%m', '%d')))
         except ValueError:
