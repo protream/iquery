@@ -147,7 +147,7 @@ class TrainTicketsQuery(object):
             'datas', 'stations.dat'
         )
         d = {}
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             for line in f.readlines():
                 name, telecode = line.split()
                 d.setdefault(name, telecode)
@@ -169,15 +169,33 @@ class TrainTicketsQuery(object):
 
     @property
     def _valid_date(self):
-        date = re.sub(r'[-/\:,]+', '', self.date)
+        date = self.date.strip()
         try:
-            date = datetime.strptime(self.date, '%Y%m%d')
+            date_token = self._date_format(date)
+            if date_token is None:
+                raise ValueError(self.date)
+            date = datetime.strptime(date, date_token.join(('%Y', '%m', '%d')))
         except ValueError:
             exit_after_echo(INVALID_DATE)
         diff = date - datetime.today()
         if diff.days not in range(-1, 50):
             exit_after_echo(INVALID_DATE)
         return datetime.strftime(date, '%Y-%m-%d')
+
+    @staticmethod
+    def _date_format(date):
+        result = re.findall('\D{1}', date)
+        result_len = len(result)
+        if result_len == 0:
+            return ''
+        elif result_len == 2:
+            if result[0] == result[1]:
+                result = result[0]
+                if result == '%':
+                    return '%%'
+                else:
+                    return result
+        return None
 
     def _build_params(self):
         """Have no idea why wrong params order can't get data.
