@@ -109,10 +109,7 @@ class Args(object):
 
 class Colored(object):
 
-    """I finally decided not to surpot Windows. Keep it
-    simple, only use `red` and `green` color. No necessory
-    to use `colorama` any more.
-    """
+    """Keep it simple, only use `red` and `green` color."""
 
     RED = '\033[91m'
     GREEN = '\033[92m'
