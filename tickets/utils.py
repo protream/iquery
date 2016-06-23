@@ -80,7 +80,7 @@ class Args(object):
     @property
     def is_querying_show(self):
         arg = self.get(1)
-        if len(self.all) not in (2, 3):
+        if len(self) not in (2, 3):
             return False
         if is_show_type(arg):
             return True
@@ -88,7 +88,7 @@ class Args(object):
 
     @property
     def is_querying_train(self):
-        if len(self.all) not in (3, 4):
+        if len(self) not in (3, 4):
             return False
         if self.is_querying_show:
             return False
@@ -99,12 +99,12 @@ class Args(object):
         opts = self.options
         if opts:
             # apped valid options to end of list
-            return self.all[1:] + [opts]
-        return self.all
+            return self._args[1:] + [opts]
+        return self._args
 
     @property
     def as_show_query_params(self):
-        return self.all
+        return self._args
 
 
 class Colored(object):
