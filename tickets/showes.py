@@ -10,7 +10,7 @@
 import os
 import re
 import sys
-from .utils import colored
+from .utils import colored, exit_after_echo
 
 import requests
 from bs4 import BeautifulSoup
@@ -26,7 +26,7 @@ SHOWES_QUERY_URL = 'http://www.damai.cn/projectlist.do'
 
 # ERROR MSG
 QUERY_DAYS_INVALID = 'Invalid days.'
-CITY_NOT_FOUND = 'City not found.'
+CITY_NOT_FOUND = 'Sorry, your city is not supported.'
 SHOW_NOT_FOUND = 'No result.'
 NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 
