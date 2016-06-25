@@ -31,6 +31,7 @@ TO_STATION_NOT_FOUND = 'To station not found.'
 INVALID_DATE = 'Invalid query date.'
 NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 TRAIN_NOT_FOUND = 'No result.'
+NO_RESPONSE = 'Sorry, server is not responding.'
 
 
 class TrainsCollection(object):
@@ -79,15 +80,13 @@ class TrainsCollection(object):
                     # Column: '车次'
                     train_no,
                     # Column: '车站'
-                    ''.join([
+                    '\n'.join([
                         colored.green(row.get('from_station_name')),
-                        '\n',
                         colored.red(row.get('to_station_name')),
                     ]),
                     # Column: '时间'
-                    ''.join([
+                    '\n'.join([
                         colored.green(row.get('start_time')),
-                        '\n',
                         colored.red(row.get('arrive_time')),
                     ]),
                     # Column: '历时'
@@ -169,33 +168,47 @@ class TrainTicketsQuery(object):
 
     @property
     def _valid_date(self):
-        date = self.date.strip()
+        """Check and return a valid query date."""
+        date = self._parse_date(self.date)
+
+        if not date:
+            exit_after_echo(INVALID_DATE)
+
         try:
-            date_token = self._date_format(date)
-            if date_token is None:
-                raise ValueError(self.date)
-            date = datetime.strptime(date, date_token.join(('%Y', '%m', '%d')))
+            date = datetime.strptime(date, '%Y%m%d')
         except ValueError:
             exit_after_echo(INVALID_DATE)
-        diff = date - datetime.today()
-        if diff.days not in range(-1, 50):
+
+        # A valid query date should within 50 days.
+        offset = date - datetime.today()
+        if offset.days not in range(-1, 50):
             exit_after_echo(INVALID_DATE)
+
         return datetime.strftime(date, '%Y-%m-%d')
 
     @staticmethod
-    def _date_format(date):
-        result = re.findall('\D{1}', date)
-        result_len = len(result)
-        if result_len == 0:
-            return ''
-        elif result_len == 2:
-            if result[0] == result[1]:
-                result = result[0]
-                if result == '%':
-                    return '%%'
-                else:
-                    return result
-        return None
+    def _parse_date(date):
+        """Parse from the user input `date`.
+
+        e.g. current year 2016:
+           input 6-26, 626, ... return 2016626
+           input 2016-6-26, 2016/6/26, ... retrun 2016626
+
+        This fn wouldn't check the date, it only gather the number as a string.
+        """
+        result = ''.join(re.findall('\d', date))
+        l = len(result)
+
+        # User only input month and day, eg 6-1, 6.26, 0626...
+        if l in (2, 3, 4):
+            year = str(datetime.today().year)
+            return year + result
+
+        # User input full format date, eg 201661, 2016-6-26, 20160626...
+        if l in (6, 7, 8):
+            return result
+
+        return ''
 
     def _build_params(self):
         """Have no idea why wrong params order can't get data.
@@ -221,5 +234,7 @@ class TrainTicketsQuery(object):
             rows = r.json()['data']['datas']
         except KeyError:
             rows = []
+        except TypeError:
+            exit_after_echo(NO_RESPONSE)
 
         return TrainsCollection(rows, self.opts)

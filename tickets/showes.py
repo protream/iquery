@@ -155,9 +155,8 @@ class ShowTicketsQuery(object):
             time = mix[1][:-3]
             place = mix[2][:-7]
             # display time below theme
-            theme_time = ''.join([
+            theme_time = '\n'.join([
                 theme,
-                '\n',
                 colored.red(''.join([
                     '(', time, ')'
                 ]))

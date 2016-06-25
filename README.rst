@@ -1,71 +1,106 @@
 tickets
 ===========================================================
-tickets enable you query variable tickets via command line, type:
+
+tickets提供基于命令行的火车票、演出及热映电影的信息查询.
+
+
+Usage
+-----
+
+火车查询
+````````
+
+命令行下输入:
 
 ::
 
-    $ tickets 上海虹桥 北京 20160617
+    $ tickets 上海虹桥 北京 617
 
-in command line, get train tickets from `上海虹桥` to `北京` in 2016-06-17:
+你将获得本年6-17从上海虹桥到北京的火车票信息:
 
 .. image:: http://7xqdxb.com1.z0.glb.clouddn.com/ticksts-train.png
 
 ...
 
-besides, you can specify train type:
+当然你也可以指定火车的类型和输入完整的查询日期, 比如:
 
 ::
 
-    $ tickets -g 上海 北京 20160617
+    $ tickets -dg 上海 北京 20160617
 
-Only query high-seed rail.
+只查询动车和高铁.
 
-For show query,  type:
+演出查询
+````````
+
+命令行下输入：
 
 ::
 
     $ tickets 南京 音乐会
 
-you will get concerts in Nanjin city within `15` days:
+你将获得未来15天内在南京的音乐会信息：
 
 .. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets-show.png
 
-You can specify within how many days, like:
+当然, 你也可以指定查询未来多少天:
 
 ::
 
     $ tickets 上海 演唱会 7
 
-to query 7 days in the future.
+只查询一周内的信息.
 
+
+电影查询
+````````
+
+命令行下输入:
+
+::
+
+    $ tickets -m 或者 $ tickets 电影
+
+你将获得当前热映的电影信息:
+
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets_movies.png
+
+输出电影信息后，你可以输入你感兴趣的电影编号查看电影简介, 比如输入2获得独立日的简介:
+
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets_movie_summary.png
+
+输入q或quit退出.
 
 Install
 -------
+
+tickets使用Python3编写，请使用pip3安装:
 
 ::
 
     $ pip3 install tickets
 
-or
+或者下载源码安装:
 
 ::
 
     $ git clone https://github.com/protream/tickets
 
-then go to `tickets` dir,
+然后到下载目录:
 
 ::
 
     $ ./setup.py install
 
-Usage
------
+Help
+----
 
 ::
 
     Usage:
-        tickets [-dgktz] <from> <to> <date>
+        tickets (-m|电影)
         tickets <city> <show> [<days>]
+        tickets [-dgktz] <from> <to> <date>
 
     Arguments:
         from             出发站
@@ -85,22 +120,27 @@ Usage
         -t               特快
         -z               直达
 
+        -m               查询当前热映的电影
+
     Show:
         演唱会 音乐会 比赛 话剧 歌剧 舞蹈 戏曲 相声 音乐剧 歌舞剧 儿童剧 杂技 马戏 魔术
 
     Examples:
-        tickets 南京 北京 201671
-        tickets -k  南京南 上海 2016-7-1
-        tickets -dg 上海虹桥 北京西 2016/7/1
+        tickets -m
+        tickets 电影
 
         tickets 上海 演唱会
         tickets 北京 比赛 7
 
+        tickets 南京 北京 201671
+        tickets -k  南京南 上海 2016-7-1
+        tickets -dg 上海虹桥 北京西 2016/7/1
+
+
+
 Notes
 -----
 
-- In consideration of `tickets` is just a tool, not lib, so not much necessary to suport Pyhton2 anymore.
+- 火车票查询最多查询未来50天内.
 
-- Train query date surport max 50 days offset today, less or more will be considered as a invalid date.
-
-- If you don't use delimiter, make sure your date is not ambiguous. e.g. By 2016115 you mean 2016-1-15 or 2016-11-5 ? By default, it parsed to 2016-11-5.
+- 确保你的查询日期不要有歧义, 比如111可以是1.11也可以是11.1, 默认解析为11.1

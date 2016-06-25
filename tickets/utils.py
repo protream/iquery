@@ -4,7 +4,7 @@
     tickets.utils
     ~~~~~~~~~~~~~
 
-    Some tool.
+    A simple args parser and a color wrapper.
 """
 
 import sys
@@ -93,6 +93,13 @@ class Args(object):
         if self.is_querying_show:
             return False
         return True
+
+    @property
+    def is_querying_movie(self):
+        arg = self.get(0)
+        if arg in ('-m', '电影'):
+            return True
+        return False
 
     @property
     def as_train_query_params(self):
