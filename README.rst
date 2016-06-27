@@ -1,9 +1,6 @@
 tickets
 ===========================================================
 
-.. image:: https://img.shields.io/pypi/dm/tickets.svg
-        :target: https://pypi.python.org/pypi/tickets
-
 tickets提供基于命令行的火车票、演出及热映电影的信息查询.
 
 
