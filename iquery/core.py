@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
 
 """
-    tickets.core
-    ~~~~~~~~~~~~
+iquery.core
+~~~~~~~~~~~~
 
-    tickets command-line interface.
+The program entrance.
 """
 
-import sys
-import requests
 from .utils import args, exit_after_echo
-from .showes import ShowTicketsQuery
-from .trains import TrainTicketsQuery
-from .movies import HotMoviesQuery
 
 
 try:
     from requests.packages.urllib3.exceptions import (
-            SNIMissingWarning,
-            InsecureRequestWarning,
-            InsecurePlatformWarning
+        SNIMissingWarning,
+        InsecureRequestWarning,
+        InsecurePlatformWarning
     )
 
 # Not show warings
@@ -31,24 +26,27 @@ except ImportError:
 
 
 def show_usage():
-    """
-Usage:
-    tickets (-m|电影)
-    tickets <city> <show> [<days>]
-    tickets [-dgktz] <from> <to> <date>
+    """Usage:
+    iquery (-m|电影)
+    iquery -p <city>
+    iquery -p <city> <hospital>
+    iquery <city> <show> [<days>]
+    iquery [-dgktz] <from> <to> <date>
 
-You can go to `tickets -h` for more details.
-    """
+Go to `tickets -h` for more details.
+"""
     pass
 
 
 def cli():
-    """Tickets query via the command line.
+    """Various information query via command line.
 
 Usage:
-    tickets (-m|电影)
-    tickets <city> <show> [<days>]
-    tickets [-dgktz] <from> <to> <date>
+    iquery (-m|电影)
+    iquery -p <city>
+    iquery -p <city> <hospital>
+    iquery <city> <show> [<days>]
+    iquery [-dgktz] <from> <to> <date>
 
 Arguments:
     from             出发站
@@ -59,45 +57,46 @@ Arguments:
     show             演出的类型
     days             查询近(几)天内的演出, 若省略, 默认15
 
+    city             城市名,加在-p后查询该城市所有莆田医院
+    hospital         医院名,加在city后检查该医院是否是莆田系
+
 
 Options:
     -h, --help       显示该帮助菜单.
-    -d               动车
-    -g               高铁
-    -k               快速
-    -t               特快
-    -z               直达
 
-    -m               查询热映电影
+    -dgktz           动车,高铁,快速,特快,直达
+
+    -m               热映电影查询
+    -p               莆田系医院查询
 
 Show:
-    演唱会 音乐会 比赛 话剧 歌剧 舞蹈 戏曲 相声 音乐剧 歌舞剧 儿童剧 杂技 马戏 魔术
+    演唱会 音乐会 音乐剧 歌舞剧 儿童剧 话剧
+    歌剧 比赛 舞蹈 戏曲 相声 杂技 马戏 魔术
 
-Examples:
-    tickets -m
-    tickets 电影
 
-    tickets 上海 演唱会
-    tickets 北京 比赛 7
-
-    tickets 南京 北京 201671
-    tickets -k  南京南 上海 2016-7-1
-    tickets -dg 上海虹桥 北京西 2016/7/1
-    """
+Go to https://github.com/protream/tickets for usage examples.
+"""
 
     if args.is_asking_for_help:
         exit_after_echo(cli.__doc__, color=None)
 
     elif args.is_querying_movie:
-        q = HotMoviesQuery()
+        from .movies import query
+        result = query()
 
     elif args.is_querying_show:
-        q = ShowTicketsQuery(*args.as_show_query_params)
+        from .showes import query
+        result = query(args.as_show_query_params)
+
+    elif args.is_querying_putian_hospital:
+        from .hospitals import query
+        result = query(args.as_hospital_query_params)
 
     elif args.is_querying_train:
-        q = TrainTicketsQuery(*args.as_train_query_params)
+        from .trains import query
+        result = query(args.as_train_query_params)
 
     else:
         exit_after_echo(show_usage.__doc__, color=None)
 
-    q.query().pretty_print()
+    result.pretty_print()

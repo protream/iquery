@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
 
 """
-    tickets.trains
-    ~~~~~~~~~~~~~~
+iquery.trains
+~~~~~~~~~~~~~~
 
-    Train tickets model.
+Train tickets query and display. The datas come
+from:
+    www.12306.cn
 """
 
 import os
 import re
 import sys
 import json
+import requests
+from .utils import colored, exit_after_echo
 from datetime import datetime
 from collections import OrderedDict
-from .utils import colored, exit_after_echo
-
-import requests
 from prettytable import PrettyTable
 from requests.exceptions import ConnectionError
 
 
-__all__ = ['TrainTicketsQuery']
+__all__ = ['query']
 
 
 QUERY_URL = 'https://kyfw.12306.cn/otn/lcxxcx/query'
@@ -238,3 +239,9 @@ class TrainTicketsQuery(object):
             exit_after_echo(NO_RESPONSE)
 
         return TrainsCollection(rows, self.opts)
+
+
+def query(params):
+    """`params` is a list, contains `from`, `to`, `date`."""
+
+    return TrainTicketsQuery(*params).query()

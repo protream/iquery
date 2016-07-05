@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 """
-    tickets.utils
-    ~~~~~~~~~~~~~
+iquery.utils
+~~~~~~~~~~~~~
 
-    A simple args parser and a color wrapper.
+A simple args parser and a color wrapper.
 """
 
 import sys
 
 
-__all__ = ['args', 'colored', 'exit_after_echo', 'is_show_type']
+__all__ = ['args', 'colored', 'exit_after_echo']
 
 
 def exit_after_echo(msg, color='red'):
@@ -20,18 +20,10 @@ def exit_after_echo(msg, color='red'):
         print(msg)
     exit()
 
-show_types_list = (
-    '演唱会 音乐会 比赛 话剧 歌剧 戏曲 相声 ' +
-    '音乐剧 歌舞剧 儿童剧 舞蹈 杂技 马戏 魔术'
-).split()
-
-
-is_show_type = frozenset(show_types_list).__contains__
-
 
 class Args(object):
 
-    """A simple customed args parser for `tickets`."""
+    """A simple customed args parser for `iquery`."""
 
     def __init__(self, args=None):
         self._args = sys.argv[1:]
@@ -79,6 +71,7 @@ class Args(object):
 
     @property
     def is_querying_show(self):
+        from .showes import is_show_type
         arg = self.get(1)
         if len(self) not in (2, 3):
             return False
@@ -88,10 +81,17 @@ class Args(object):
 
     @property
     def is_querying_train(self):
-        if len(self) not in (3, 4):
+        l = len(self)
+        if l not in (3, 4):
             return False
         if self.is_querying_show:
             return False
+        if l == 4:
+            arg = self.get(0)
+            if not arg.startswith('-'):
+                return False
+            if arg[1] not in 'dgktz':
+                return False
         return True
 
     @property
@@ -100,6 +100,10 @@ class Args(object):
         if arg in ('-m', '电影'):
             return True
         return False
+
+    @property
+    def is_querying_putian_hospital(self):
+        return self.get(0) == '-p' and len(self) in (2, 3)
 
     @property
     def as_train_query_params(self):
@@ -112,6 +116,10 @@ class Args(object):
     @property
     def as_show_query_params(self):
         return self._args
+
+    @property
+    def as_hospital_query_params(self):
+        return self._args[1:]
 
 
 class Colored(object):
