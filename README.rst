@@ -65,6 +65,8 @@ Usage
 
 .. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_movies.png
 
+...
+
 输出电影信息后，你可以输入你感兴趣的电影编号查看电影简介, 比如输入2获得独立日的简介:
 
 .. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_movie_summary.png
@@ -78,12 +80,24 @@ Usage
 提供俩个接口, 输入城市名可以获取该城市所以莆田系医院, 如:
 
 ::
+
     $ iquery -p 杭州
+
+得到:
+
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_pt2.png
+
+...
 
 输入城市+医院名判断该医院是否是莆田系, 如:
 
 ::
+
     $ iquery -p 合肥 丹凤朝阳
+
+得到:
+
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_pt1.png
 
 
 数据来源: https://github.com/open-power-workgroup/Hospital
