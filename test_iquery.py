@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Tests for tickets."""
+"""Tests for iqeury."""
 
 import os
 import unittest
