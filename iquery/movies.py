@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 
 """
-    tickets.movies
-    ~~~~~~~~~~~~~~
+iquery.movies
+~~~~~~~~~~~~~~
 
-    Movies query and display.
+Movies query and display. The datas come
+from:
+    m.douban.com/movie
 """
 
 import re
 import textwrap
 import requests
 from .utils import colored, exit_after_echo
-from prettytable import PrettyTable
 from bs4 import BeautifulSoup
+from prettytable import PrettyTable
 from requests.exceptions import ConnectionError
 
 
-__all__ = ['HotMoviesQuery']
+__all__ = ['query']
 
 
-QUERY_URL = 'https://frodo.douban.com/jsonp/subject_collection/movie_showing/items'
+QUERY_URL = ('https://frodo.douban.com/jsonp/'
+             'subject_collection/movie_showing/items')
 
 NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 
@@ -70,7 +73,7 @@ class MoviesCollection(object):
             exit_after_echo(NETWORK_CONNECTION_FAIL)
         soup = BeautifulSoup(r.text, 'html.parser')
         s = re.sub(r'\s+', '', soup.find(property="v:summary").text)
-        print(textwrap.fill(colored.green(s), 40, initial_indent='    '))
+        print(textwrap.fill(colored.green(s), 40, initial_indent=''))
 
     def pretty_print(self):
 
@@ -97,20 +100,17 @@ class MoviesCollection(object):
                 print('Invalid number.')
 
 
-class HotMoviesQuery(object):
-
+def query():
     """Query hot movies infomation from douban."""
 
-    def query(self):
+    try:
+        r = requests.get(QUERY_URL)
+    except ConnectionError:
+        exit_after_echo(NETWORK_CONNECTION_FAIL)
 
-        try:
-            r = requests.get(QUERY_URL)
-        except ConnectionError:
-            exit_after_echo(NETWORK_CONNECTION_FAIL)
+    try:
+        rows = r.json()['subject_collection_items']
+    except (IndexError, TypeError):
+        rows = []
 
-        try:
-            rows = r.json()['subject_collection_items']
-        except (IndexError, TypeError):
-            rows = []
-
-        return MoviesCollection(rows)
+    return MoviesCollection(rows)
