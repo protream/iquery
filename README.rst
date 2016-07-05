@@ -1,7 +1,7 @@
-tickets
+iquery
 ===========================================================
 
-tickets提供基于命令行的火车票、演出及热映电影的信息查询.
+iquery提供基于命令行各种信息查询.
 
 
 Usage
@@ -14,7 +14,7 @@ Usage
 
 ::
 
-    $ tickets 上海虹桥 北京 617
+    $ iquery 上海虹桥 北京 617
 
 你将获得本年6-17从上海虹桥到北京的火车票信息:
 
@@ -26,7 +26,7 @@ Usage
 
 ::
 
-    $ tickets -dg 上海 北京 20160617
+    $ iquery -dg 上海 北京 20160617
 
 只查询动车和高铁.
 
@@ -37,17 +37,17 @@ Usage
 
 ::
 
-    $ tickets 南京 音乐会
+    $ iquery 南京 音乐会
 
 你将获得未来15天内在南京的音乐会信息：
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets-show.png
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery-show.png
 
 当然, 你也可以指定查询未来多少天:
 
 ::
 
-    $ tickets 上海 演唱会 7
+    $ iquery 上海 演唱会 7
 
 只查询一周内的信息.
 
@@ -59,32 +59,49 @@ Usage
 
 ::
 
-    $ tickets -m 或者 $ tickets 电影
+    $ iquery -m 或者 $ iquery 电影
 
 你将获得当前热映的电影信息:
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets_movies.png
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_movies.png
 
 输出电影信息后，你可以输入你感兴趣的电影编号查看电影简介, 比如输入2获得独立日的简介:
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/tickets_movie_summary.png
+.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_movie_summary.png
 
 输入q或quit退出.
+
+
+莆田系医院查询
+``````````````
+
+提供俩个接口, 输入城市名可以获取该城市所以莆田系医院, 如:
+
+::
+    $ iquery -p 杭州
+
+输入城市+医院名判断该医院是否是莆田系, 如:
+
+::
+    $ iquery -p 合肥 丹凤朝阳
+
+
+数据来源: https://github.com/open-power-workgroup/Hospital
 
 Install
 -------
 
-tickets使用Python3编写，请使用pip3安装:
+iquery使用Python3编写，请使用pip3安装:
 
 ::
 
-    $ pip3 install tickets
+    $ pip3 install iquery
 
 或者下载源码安装:
 
 ::
 
-    $ git clone https://github.com/protream/tickets
+    $ git clone https://github.com/protream/iquery
 
 然后到下载目录:
 
@@ -98,9 +115,11 @@ Help
 ::
 
     Usage:
-        tickets (-m|电影)
-        tickets <city> <show> [<days>]
-        tickets [-dgktz] <from> <to> <date>
+        iquery (-m|电影)
+        iquery -p <city>
+        iquery -p <city> <hospital>
+        iquery <city> <show> [<days>]
+        iquery [-dgktz] <from> <to> <date>
 
     Arguments:
         from             出发站
@@ -111,32 +130,24 @@ Help
         show             演出的类型
         days             查询近(几)天内的演出, 若省略, 默认15
 
+        city             城市名,加在-p后查询该城市所有莆田医院
+        hospital         医院名,加在city后检查该医院是否是莆田系
+
 
     Options:
         -h, --help       显示该帮助菜单.
-        -d               动车
-        -g               高铁
-        -k               快速
-        -t               特快
-        -z               直达
 
-        -m               查询当前热映的电影
+        -dgktz           动车,高铁,快速,特快,直达
+
+        -m               热映电影查询
+        -p               莆田系医院查询
 
     Show:
-        演唱会 音乐会 比赛 话剧 歌剧 舞蹈 戏曲 相声 音乐剧 歌舞剧 儿童剧 杂技 马戏 魔术
-
-    Examples:
-        tickets -m
-        tickets 电影
-
-        tickets 上海 演唱会
-        tickets 北京 比赛 7
-
-        tickets 南京 北京 201671
-        tickets -k  南京南 上海 2016-7-1
-        tickets -dg 上海虹桥 北京西 2016/7/1
+        演唱会 音乐会 音乐剧 歌舞剧 儿童剧 话剧
+        歌剧 比赛 舞蹈 戏曲 相声 杂技 马戏 魔术
 
 
+    Go to https://github.com/protream/tickets for usage examples.
 
 Notes
 -----
