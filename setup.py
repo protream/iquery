@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 from codecs import open
-from tickets import __version__
-from setuptools import setup, find_packages
+from iquery import __version__
+from setuptools import setup
 
 
 def read(f):
@@ -10,15 +10,15 @@ def read(f):
 
 
 setup(
-    name='tickets',
+    name='iquery',
     version=__version__,
-    description='Train tickets query via command line.',
+    description='Various information query via command line.',
     long_description=read('README.rst') + '\n\n' + read('HISTORY.rst'),
     author='protream',
     author_email='protream@gmail.com',
-    url='https://github.com/protream/tickets',
+    url='https://github.com/protream/iquery',
     packages=[
-        'tickets'
+        'iquery'
     ],
     py_modules=['run'],
     include_package_data=True,
@@ -29,7 +29,7 @@ setup(
         'bs4',
     ],
     entry_points={
-        'console_scripts': ['tickets=run:cli']
+        'console_scripts': ['iquery=run:cli']
     },
     license='MIT',
     zip_safe=False,
