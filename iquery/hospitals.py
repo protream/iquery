@@ -31,45 +31,44 @@ class HospitalCollection(object):
 
     def __init__(self, rows, params):
         self._rows = rows
-
         self._params = params
+        self._city = self._params[0]
 
-        #: All supported cities.
-        self._citys = rows.keys()
+    @property
+    def putian_hospitals_in_city(self):
+        hospitals = self._rows.get(self._city, None)
+        if hospitals is None:
+            exit_after_echo('City is not supported.')
+        return iter(hospitals)
 
     def pretty_print(self):
 
-        pt = PrettyTable()
+        pt = PrettyTable([self._city])
 
         l = len(self._params)
 
-        city = self._params[0]
-        if city not in self._citys:
-            exit_after_echo('City is not supported.')
-        hospitals = self._rows.get(city)
-
         if l == 1:
-            pt._set_field_names([city])
-            for idx, h in enumerate(hospitals):
+            pt._set_field_names([self._city])
+            for hospital in self.putian_hospitals_in_city:
                 color = colored.red
-                pt.add_row([color(h) + '\n'])
+                pt.add_row([color(hospital) + '\n'])
             print(pt)
-            return
 
         if l == 2:
-            hospital = self._params[1]
-            field_name = city + hospital
-            is_putian = False
-            for h in hospitals:
-                if hospital in h:
-                    is_putian = True
-                    field_name = h
+            # User input hospital name
+            h = self._params[1]
+
+            is_putian, field_name = False, self._city + h
+
+            for hospital in self.putian_hospitals_in_city:
+                if h in hospital:
+                    is_putian, field_name = True, hospital
                     break
+
             pt._set_field_names([field_name])
             color = colored.red if is_putian else colored.green
             pt.add_row([color(str(is_putian))])
             print(pt)
-            return
 
 
 def query(params):
