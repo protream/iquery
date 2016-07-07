@@ -10,4 +10,4 @@ register:
 publish:
 	python3 setup.py sdist upload
 	python3 setup.py bdist_wheel upload
-	rm -fr build dist .egg tickets.egg-info
+	rm -fr build dist .egg iquery.egg-info
