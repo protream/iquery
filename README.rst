@@ -77,20 +77,20 @@ Usage
 莆田系医院查询
 ``````````````
 
-提供俩个接口, 输入城市名
+提供俩个接口, 如：
 
 ``$ iquery -p 杭州``
 
-以获取该城市所以莆田系医院的一个列表.
+获取该城市所有莆田系医院的一个列表.
 
 
-输入城市+医院名
+查询城市内特定医院，这里假设曙光代表 ``上海曙光男科医院`` , 只需输入:
 
 ``$ iquery -p 上海 曙光``
 
-这里假设曙光代表 ``上海曙光男科`` , 只需在上海后加曙光就可以判断该医院是否是莆田系, 返回True或False.
+就可以判断该医院是否是莆田系, 返回True或False.
 
-数据来源: `Hospital<https://github.com/open-power-workgroup/Hospital>`_
+数据来源: https://github.com/open-power-workgroup/Hospital
 
 Install
 -------
