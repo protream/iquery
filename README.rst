@@ -77,30 +77,20 @@ Usage
 莆田系医院查询
 ``````````````
 
-提供俩个接口, 输入城市名可以获取该城市所以莆田系医院, 如:
+提供俩个接口, 输入城市名
 
-::
+``$ iquery -p 杭州``
 
-    $ iquery -p 杭州
-
-得到:
-
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_pt2.png
-
-...
-
-输入城市+医院名判断该医院是否是莆田系, 如:
-
-::
-
-    $ iquery -p 合肥 丹凤朝阳
-
-得到:
-
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery_pt1.png
+以获取该城市所以莆田系医院的一个列表.
 
 
-数据来源: https://github.com/open-power-workgroup/Hospital
+输入城市+医院名
+
+``$ iquery -p 上海 曙光``
+
+这里假设曙光代表 ``上海曙光男科`` , 只需在上海后加曙光就可以判断该医院是否是莆田系, 返回True或False.
+
+数据来源: `Hospital<https://github.com/open-power-workgroup/Hospital>`_
 
 Install
 -------
@@ -150,9 +140,7 @@ Help
 
     Options:
         -h, --help       显示该帮助菜单.
-
         -dgktz           动车,高铁,快速,特快,直达
-
         -m               热映电影查询
         -p               莆田系医院查询
 
@@ -161,7 +149,7 @@ Help
         歌剧 比赛 舞蹈 戏曲 相声 杂技 马戏 魔术
 
 
-    Go to https://github.com/protream/tickets for usage examples.
+    Go to https://github.com/protream/iquery for usage examples.
 
 Notes
 -----
