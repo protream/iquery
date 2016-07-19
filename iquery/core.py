@@ -7,6 +7,7 @@ iquery.core
 The program entrance.
 """
 
+import requests
 from .utils import args, exit_after_echo
 
 

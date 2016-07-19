@@ -1,3 +1,7 @@
+0.4.1
+-----
+- not import requests err fix
+
 0.4.0
 -----
 - 项目更名： tikcets -> iquery
