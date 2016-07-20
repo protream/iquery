@@ -27,6 +27,7 @@ class Args(object):
 
     def __init__(self, args=None):
         self._args = sys.argv[1:]
+        self._argc = len(self)
 
     def __repr__(self):
         return '<args {}>'.format(repr(self._args))
@@ -46,7 +47,7 @@ class Args(object):
 
     @property
     def is_null(self):
-        return len(self.all) == 0
+        return self._argc == 0
 
     @property
     def options(self):
@@ -73,7 +74,7 @@ class Args(object):
     def is_querying_show(self):
         from .showes import is_show_type
         arg = self.get(1)
-        if len(self) not in (2, 3):
+        if self._argc not in (2, 3):
             return False
         if is_show_type(arg):
             return True
@@ -81,12 +82,11 @@ class Args(object):
 
     @property
     def is_querying_train(self):
-        l = len(self)
-        if l not in (3, 4):
+        if self._argc not in (3, 4):
             return False
         if self.is_querying_show:
             return False
-        if l == 4:
+        if self._argc == 4:
             arg = self.get(0)
             if not arg.startswith('-'):
                 return False
@@ -103,7 +103,7 @@ class Args(object):
 
     @property
     def is_querying_putian_hospital(self):
-        return self.get(0) == '-p' and len(self) in (2, 3)
+        return self.get(0) == '-p' and self._argc in (2, 3)
 
     @property
     def as_train_query_params(self):

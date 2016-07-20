@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-iquery.putian_hospitals
+iquery.hospitals
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Check whether a hospital is putian series or display
@@ -49,9 +49,8 @@ class HospitalCollection(object):
 
     def pretty_print(self):
 
-        pt = PrettyTable([self._city])
-
         if not self._hospital:
+            pt = PrettyTable()
             pt._set_field_names([self._city])
             for hospital in self.putian_hospitals_in_city:
                 pt.add_row([colored.green(hospital) + '\n'])
@@ -61,13 +60,12 @@ class HospitalCollection(object):
             is_putian, field_name = False, self._city + self._hospital
 
             for hospital in self.putian_hospitals_in_city:
+                pt = PrettyTable()
                 if self._hospital in hospital:
                     is_putian, field_name = True, hospital
-                    break
-
-            pt._set_field_names([field_name])
-            pt.add_row([colored.green(str(is_putian))])
-            print(pt)
+                    pt._set_field_names([field_name])
+                    pt.add_row([colored.green(str(is_putian))])
+                    print(pt)
 
 
 def query(params):
