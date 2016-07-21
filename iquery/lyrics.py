@@ -24,12 +24,9 @@ class SongPage(object):
 
     """The query song's page on xiami. """
 
-    def __init__(self, song_name, song_url):
-        self.name = song_name
+    def __init__(self, song_url):
         self.url = song_url
-
         self.html_content = requests_get(self.url).text
-
         self.soup = BeautifulSoup(self.html_content, 'html.parser')
 
     def __repr__(self):
@@ -37,6 +34,7 @@ class SongPage(object):
 
     @property
     def song_info(self):
+        """This may contains: album, singer, lyric author, tune author."""
         text = self.soup.find(id='albums_info').text
         return text.replace(' ', '') \
                    .replace('\n\n', '') \
@@ -63,9 +61,9 @@ def query(song_name):
     r = requests_get(SONG_SEARCH_URL.format(song_name))
 
     try:
-        # Get the first requst which is the hotest one.
+        # Get the first result.
         song_url = re.search(r'(http://www.xiami.com/song/\d+)', r.text).group(0)
     except AttributeError:
         exit_after_echo(SONG_NOT_FOUND)
 
-    return SongPage(song_name, song_url)
+    return SongPage(song_url)
