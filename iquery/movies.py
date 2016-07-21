@@ -11,20 +11,15 @@ from:
 
 import re
 import textwrap
-import requests
-from .utils import colored, exit_after_echo
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
-from requests.exceptions import ConnectionError
+from .utils import colored, requests_get, exit_after_echo
 
 
 __all__ = ['query']
 
-
 QUERY_URL = ('https://frodo.douban.com/jsonp/'
              'subject_collection/movie_showing/items')
-
-NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 
 
 class MoviesCollection(object):
@@ -67,10 +62,7 @@ class MoviesCollection(object):
 
     def _get_movie_summary(self, num):
         url = self._rows[num - 1].get('url')
-        try:
-            r = requests.get(url)
-        except ConnectionError:
-            exit_after_echo(NETWORK_CONNECTION_FAIL)
+        r = requests_get(url)
         soup = BeautifulSoup(r.text, 'html.parser')
         s = re.sub(r'\s+', '', soup.find(property="v:summary").text)
         print(textwrap.fill(colored.green(s), 40, initial_indent=''))
@@ -103,10 +95,7 @@ class MoviesCollection(object):
 def query():
     """Query hot movies infomation from douban."""
 
-    try:
-        r = requests.get(QUERY_URL)
-    except ConnectionError:
-        exit_after_echo(NETWORK_CONNECTION_FAIL)
+    r = requests_get(QUERY_URL)
 
     try:
         rows = r.json()['subject_collection_items']

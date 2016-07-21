@@ -11,26 +11,19 @@ from:
 
 import os
 import re
-import sys
-import json
-import requests
-from .utils import colored, exit_after_echo
 from datetime import datetime
 from collections import OrderedDict
 from prettytable import PrettyTable
-from requests.exceptions import ConnectionError
+from .utils import colored, requests_get, exit_after_echo
 
 
 __all__ = ['query']
 
-
 QUERY_URL = 'https://kyfw.12306.cn/otn/lcxxcx/query'
-
-# ERROR MSG
+# ERR
 FROM_STATION_NOT_FOUND = 'From station not found.'
 TO_STATION_NOT_FOUND = 'To station not found.'
 INVALID_DATE = 'Invalid query date.'
-NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 TRAIN_NOT_FOUND = 'No result.'
 NO_RESPONSE = 'Sorry, server is not responding.'
 
@@ -47,15 +40,6 @@ class TrainsCollection(object):
 
     def __repr__(self):
         return '<TrainsCollection size={}>'.format(len(self))
-
-    def __iter__(self):
-        i = 0
-        while True:
-            if i < len(self):
-                yield self[i]
-            else:
-                yield next(self)
-            i += 1
 
     def __len__(self):
         return len(self._rows)
@@ -226,10 +210,7 @@ class TrainTicketsQuery(object):
 
         params = self._build_params()
 
-        try:
-            r = requests.get(QUERY_URL, params=params, verify=False)
-        except ConnectionError:
-            exit_after_echo(NETWORK_CONNECTION_FAIL)
+        r = requests_get(QUERY_URL, params=params, verify=False)
 
         try:
             rows = r.json()['data']['datas']

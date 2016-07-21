@@ -8,9 +8,12 @@ A simple args parser and a color wrapper.
 """
 
 import sys
+import random
+import requests
+from requests.exceptions import ConnectionError
 
 
-__all__ = ['args', 'colored', 'exit_after_echo']
+__all__ = ['args', 'colored', 'requests_get', 'exit_after_echo']
 
 
 def exit_after_echo(msg, color='red'):
@@ -18,7 +21,24 @@ def exit_after_echo(msg, color='red'):
         print(colored.red(msg))
     else:
         print(msg)
-    exit()
+    exit(1)
+
+
+def requests_get(url, **kwargs):
+    USER_AGENTS = (
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0',
+        'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:22.0) Gecko/20100 101 Firefox/22.0',
+        'Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0',
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.5 (KHTML, like Gecko) '
+         'Chrome/19.0.1084.46 Safari/536.5'),
+        ('Mozilla/5.0 (Windows; Windows NT 6.1) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.46'
+         'Safari/536.5')
+    )
+    try:
+        r = requests.get(url, headers={'User-Agent': random.choice(USER_AGENTS)}, **kwargs)
+    except ConnectionError:
+        exit_after_echo('Network connection failed.')
+    return r
 
 
 class Args(object):
@@ -102,6 +122,13 @@ class Args(object):
         return False
 
     @property
+    def is_querying_lyric(self):
+        arg = self.get(0)
+        if arg == '-l':
+            return True
+        return False
+
+    @property
     def is_querying_putian_hospital(self):
         return self.get(0) == '-p' and self._argc in (2, 3)
 
@@ -120,6 +147,10 @@ class Args(object):
     @property
     def as_hospital_query_params(self):
         return self._args[1:]
+
+    @property
+    def as_lyric_query_params(self):
+        return self._args[1]
 
 
 class Colored(object):

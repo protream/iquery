@@ -10,15 +10,11 @@ from:
     https://github.com/open-power-workgroup/Hospital
 """
 
-import requests
-import itertools
-from .utils import args, colored, exit_after_echo
 from prettytable import PrettyTable
-from requests.exceptions import ConnectionError, Timeout
+from .utils import colored, requests_get, exit_after_echo
 
 
 __all__ = ['query']
-
 
 QUERY_URL = ('https://raw.githubusercontent.com/'
              'open-power-workgroup/Hospital/master/'
@@ -98,9 +94,6 @@ def query(params):
 
     """
 
-    try:
-        r = requests.get(QUERY_URL)
-    except ConnectionError:
-        exit_after_echo('Network connection failed.')
+    r = requests_get(QUERY_URL)
 
     return HospitalCollection(r.json(), params)

@@ -11,26 +11,20 @@ from:
 
 import os
 import re
-import sys
-import requests
-
-from .utils import colored, exit_after_echo
 from bs4 import BeautifulSoup
 from prettytable import PrettyTable
 from datetime import datetime, timedelta
-from requests.exceptions import ConnectionError
+from .utils import colored, requests_get, exit_after_echo
 
 
 __all__ = ['is_show_type', 'query']
 
-
 SHOWES_QUERY_URL = 'http://www.damai.cn/projectlist.do'
 
-# ERROR MSG
+# ERR MSG
 QUERY_DAYS_INVALID = 'Invalid days.'
 CITY_NOT_FOUND = 'Sorry, your city is not supported.'
 SHOW_NOT_FOUND = 'No result.'
-NETWORK_CONNECTION_FAIL = 'Network connection failed.'
 
 # All supported show types and its query params.
 SHOW_TYPES = {
@@ -174,14 +168,10 @@ class ShowTicketsQuery(object):
         rows = []
 
         while True:
-            try:
-                r = requests.get(SHOWES_QUERY_URL, params=params)
-            except ConnectionError:
-                exit_after_echo(NETWORK_CONNECTION_FAIL)
-
+            r = requests_get(SHOWES_QUERY_URL, params=params)
             soup = BeautifulSoup(r.text, 'html.parser')
-            items = soup.find_all(class_='ri-infos')
 
+            items = soup.find_all(class_='ri-infos')
             if not items:
                 return ShowesCollection(rows)
 
