@@ -28,6 +28,7 @@ except ImportError:
 
 def show_usage():
     """Usage:
+    iquery -l <song>
     iquery (-m|电影)
     iquery -p <city>
     iquery -p <city> <hospital>
@@ -43,6 +44,7 @@ def cli():
     """Various information query via command line.
 
 Usage:
+    iquery -l <song>
     iquery (-m|电影)
     iquery -p <city>
     iquery -p <city> <hospital>
@@ -53,6 +55,8 @@ Arguments:
     from             出发站
     to               到达站
     date             查询日期
+
+    song             歌曲名称
 
     city             查询城市
     show             演出的类型
@@ -69,6 +73,7 @@ Options:
 
     -m               热映电影查询
     -p               莆田系医院查询
+    -l               歌词查询
 
 Show:
     演唱会 音乐会 音乐剧 歌舞剧 儿童剧 话剧
@@ -84,6 +89,10 @@ Go to https://github.com/protream/tickets for usage examples.
     elif args.is_querying_movie:
         from .movies import query
         result = query()
+
+    elif args.is_querying_lyric:
+        from .lyrics import query
+        result = query(args.as_lyric_query_params)
 
     elif args.is_querying_show:
         from .showes import query
