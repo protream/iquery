@@ -153,12 +153,7 @@ class ShowTicketsQuery(object):
             time = mix[1][:-3]
             place = mix[2][:-7]
             # display time below theme
-            theme_time = '\n'.join([
-                theme,
-                colored.red(''.join([
-                    '(', time, ')'
-                ]))
-            ])
+            theme_time = '\n'.join([theme, colored.red(time)])
             price = item.find(class_='price-sort').text.strip()
             rows.append([theme_time, price, place])
         return rows

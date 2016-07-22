@@ -51,9 +51,7 @@ class MoviesCollection(object):
                 idx + 1,
                 '\n'.join([
                     colored.green(row['title']),
-                    colored.red(''.join([
-                        '(', time[0][:10], ')'
-                    ])),
+                    colored.red(time[0][:10]),
                 ]),
                 infos,
                 score
