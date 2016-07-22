@@ -10,7 +10,7 @@ A simple args parser and a color wrapper.
 import sys
 import random
 import requests
-from requests.exceptions import ConnectionError
+from requests.exceptions import ConnectionError, Timeout
 
 
 __all__ = ['args', 'colored', 'requests_get', 'exit_after_echo']
@@ -35,9 +35,15 @@ def requests_get(url, **kwargs):
          'Safari/536.5')
     )
     try:
-        r = requests.get(url, headers={'User-Agent': random.choice(USER_AGENTS)}, **kwargs)
+        r = requests.get(
+            url,
+            timeout=12,
+            headers={'User-Agent': random.choice(USER_AGENTS)}, **kwargs
+        )
     except ConnectionError:
         exit_after_echo('Network connection failed.')
+    except Timeout:
+        exit_after_echo('timeout.')
     return r
 
 
@@ -150,7 +156,7 @@ class Args(object):
 
     @property
     def as_lyric_query_params(self):
-        return self._args[1]
+        return '+'.join(self._args[1:])
 
 
 class Colored(object):
