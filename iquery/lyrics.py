@@ -8,7 +8,8 @@ Lyric query from `http://www.xiami.com`.
 """
 
 import re
-from bs4 import BeautifulSoup
+import pyquery
+from pyquery import PyQuery
 from prettytable import PrettyTable
 from .utils import colored, requests_get, exit_after_echo
 
@@ -27,30 +28,31 @@ class SongPage(object):
     def __init__(self, song_url):
         self.url = song_url
         self.html_content = requests_get(self.url).text
-        self.soup = BeautifulSoup(self.html_content, 'html.parser')
+
+        #: pyquery object
+        self._d = PyQuery(self.html_content)
 
     def __repr__(self):
         return '<SongPage url={!r}>'.format(self.url)
 
     @property
-    def song_info(self):
-        """This may contains: album, singer, lyric author, tune author."""
-        text = self.soup.find(id='albums_info').text
-        return text.replace(' ', '') \
-                   .replace('\n\n', '') \
-                   .replace('：\n', '：')
+    def song_infos(self):
+        # TODO:
+        pass
 
     @property
-    def song_lyric(self):
-        try:
-            lyric = self.soup.find(class_='lrc_main').text.strip()
-        except AttributeError:
-            lyric = '暂无歌词'
+    def lyric(self):
+        raw = self._d('.lrc_main').html()
+        if raw:
+            lyric = raw.strip().replace('<br/>', '') \
+                               .replace('&#13;', '\n') \
+                               .replace('\n\n', '\n')
+        else:
+            exit_after_echo(SONG_NOT_FOUND)
         return lyric
 
     def pretty_print(self):
-        print(colored.green(self.song_info))
-        print(self.song_lyric)
+        print('\n' + self.lyric)
 
 
 def query(song_name):
