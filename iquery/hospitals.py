@@ -49,7 +49,7 @@ class HospitalCollection(object):
             pt = PrettyTable()
             pt._set_field_names([self._city])
             for hospital in self.putian_hospitals_in_city:
-                pt.add_row([colored.green(hospital) + '\n'])
+                pt.add_row([colored.green(hospital)])
             print(pt)
 
         else:
@@ -94,6 +94,6 @@ def query(params):
 
     """
 
-    r = requests_get(QUERY_URL)
+    r = requests_get(QUERY_URL, verify=True)
 
     return HospitalCollection(r.json(), params)
