@@ -28,8 +28,8 @@ except ImportError:
 
 def show_usage():
     """Usage:
-    iquery -l <song>
     iquery (-m|电影)
+    iquery -l song [singer]
     iquery -p <city>
     iquery -p <city> <hospital>
     iquery <city> <show> [<days>]
@@ -57,6 +57,7 @@ Arguments:
     date             查询日期
 
     song             歌曲名称
+    singer           歌手, 可选项
 
     city             查询城市
     show             演出的类型
@@ -68,9 +69,7 @@ Arguments:
 
 Options:
     -h, --help       显示该帮助菜单.
-
     -dgktz           动车,高铁,快速,特快,直达
-
     -m               热映电影查询
     -p               莆田系医院查询
     -l               歌词查询

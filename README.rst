@@ -116,6 +116,15 @@ Usage
 
 数据来源: https://github.com/open-power-workgroup/Hospital
 
+
+歌词查询
+````````
+
+::
+
+    $ iquery -l 歌名 [歌手]
+
+
 Install
 -------
 
@@ -145,6 +154,7 @@ Help
     Usage:
         iquery (-m|电影)
         iquery -p <city>
+        iquery -l song [singer]
         iquery -p <city> <hospital>
         iquery <city> <show> [<days>]
         iquery [-dgktz] <from> <to> <date>
@@ -167,6 +177,7 @@ Help
         -dgktz           动车,高铁,快速,特快,直达
         -m               热映电影查询
         -p               莆田系医院查询
+        -l               歌词查询
 
     Show:
         演唱会 音乐会 音乐剧 歌舞剧 儿童剧 话剧
