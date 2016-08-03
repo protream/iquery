@@ -11,6 +11,11 @@ from:
 
 import os
 import re
+import tempfile
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 from datetime import datetime
 from collections import OrderedDict
 from prettytable import PrettyTable
@@ -126,6 +131,19 @@ class TrainTicketsQuery(object):
 
     @property
     def stations(self):
+        filename = 'iquery.stations.cache'
+        _cache_file = os.environ.get(
+            'IQUERY_STATIONS_CACHE',
+            os.path.join(tempfile.gettempdir(), filename)
+        )
+
+        if os.path.exists(_cache_file):
+            try:
+                with open(_cache_file, 'rb') as f:
+                    return pickle.load(f)
+            except:
+                pass
+
         filepath = os.path.join(
             os.path.dirname(__file__),
             'datas', 'stations.dat'
@@ -135,6 +153,10 @@ class TrainTicketsQuery(object):
             for line in f.readlines():
                 name, telecode = line.split()
                 d.setdefault(name, telecode)
+
+        with open(_cache_file, 'wb') as f:
+            pickle.dump(d, f)
+
         return d
 
     @property
