@@ -3,7 +3,7 @@ iquery
 
 iquery提供基于命令行各种信息查询.
 
-.. image:: http://7xqdxb.com1.z0.glb.clouddn.com/iquery.gif
+.. image:: https://raw.githubusercontent.com/protream/iquery/master/screenshot/iquery.gif
 
 Usage
 -----
