@@ -85,6 +85,10 @@ Go to https://github.com/protream/tickets for usage examples.
     if args.is_asking_for_help:
         exit_after_echo(cli.__doc__, color=None)
 
+    elif args.is_querying_lottery:
+        from .lottery import query
+        result = query()
+
     elif args.is_querying_movie:
         from .movies import query
         result = query()

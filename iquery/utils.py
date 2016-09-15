@@ -121,6 +121,13 @@ class Args(object):
         return True
 
     @property
+    def is_querying_lottery(self):
+        arg = self.get(0)
+        if arg in ('-c', '彩票'):
+            return True
+        return False
+
+    @property
     def is_querying_movie(self):
         arg = self.get(0)
         if arg in ('-m', '电影'):
