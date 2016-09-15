@@ -88,6 +88,7 @@ Help
 ::
 
     Usage:
+        iquery (-c|彩票)
         iquery (-m|电影)
         iquery -p <city>
         iquery -l song [singer]
@@ -114,6 +115,7 @@ Help
         -m               热映电影查询
         -p               莆田系医院查询
         -l               歌词查询
+        -c               彩票查询
 
     Show:
         演唱会 音乐会 音乐剧 歌舞剧 儿童剧 话剧

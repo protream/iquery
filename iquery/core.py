@@ -29,6 +29,7 @@ except ImportError:
 def show_usage():
     """Usage:
     iquery (-m|电影)
+    iquery (-c|彩票)
     iquery -l song [singer]
     iquery -p <city>
     iquery -p <city> <hospital>
@@ -46,6 +47,7 @@ def cli():
 Usage:
     iquery -l <song>
     iquery (-m|电影)
+    iquery (-c|彩票)
     iquery -p <city>
     iquery -p <city> <hospital>
     iquery <city> <show> [<days>]
