@@ -27,6 +27,7 @@ setup(
         'prettytable',
         'requests',
         'bs4',
+        'pyquery',
     ],
     entry_points={
         'console_scripts': ['iquery=run:cli']
