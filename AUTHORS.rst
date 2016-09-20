@@ -1,4 +1,4 @@
-Module Contibitors
+Module Contributors
 ------------------
 
 - protream <protream@gmail.com>: train/show/movie/hospital
