@@ -1,5 +1,5 @@
 Module Contributors
 ------------------
 
-- protream <protream@gmail.com>: train/show/movie/hospital
-- bonfy: lottery
+- `protream <https://github.com/protream>`_ : train/show/movie/hospital
+- `bonfy <https://github.com/bonfy>`_: lottery
