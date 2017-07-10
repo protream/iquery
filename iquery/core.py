@@ -45,7 +45,7 @@ def cli():
     """Various information query via command line.
 
 Usage:
-    iquery -l <song>
+    iquery -l <song> [singer]
     iquery (-m|电影)
     iquery (-c|彩票)
     iquery -p <city>
