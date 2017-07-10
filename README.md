@@ -116,6 +116,9 @@ Help
         to               到达站
         date             查询日期
 
+        song             歌曲名称
+        singer           歌手, 可选项
+
         city             查询城市
         show             演出的类型
         days             查询近(几)天内的演出, 若省略, 默认15
