@@ -33,7 +33,7 @@ def show_usage():
     iquery -l song [singer]
     iquery -p <city>
     iquery -p <city> <hospital>
-    iquery <city> <show> [<days>]
+    iquery <city> <show> [days]
     iquery [-dgktz] <from> <to> <date>
 
 Go to `tickets -h` for more details.
@@ -50,7 +50,7 @@ Usage:
     iquery (-c|彩票)
     iquery -p <city>
     iquery -p <city> <hospital>
-    iquery <city> <show> [<days>]
+    iquery <city> <show> [days]
     iquery [-dgktz] <from> <to> <date>
 
 Arguments:

@@ -108,7 +108,7 @@ Help
         iquery -p <city>
         iquery -l song [singer]
         iquery -p <city> <hospital>
-        iquery <city> <show> [<days>]
+        iquery <city> <show> [days]
         iquery [-dgktz] <from> <to> <date>
 
     Arguments:
