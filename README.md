@@ -108,13 +108,16 @@ Help
         iquery -p <city>
         iquery -l song [singer]
         iquery -p <city> <hospital>
-        iquery <city> <show> [<days>]
+        iquery <city> <show> [days]
         iquery [-dgktz] <from> <to> <date>
 
     Arguments:
         from             出发站
         to               到达站
         date             查询日期
+
+        song             歌曲名称
+        singer           歌手, 可选项
 
         city             查询城市
         show             演出的类型
